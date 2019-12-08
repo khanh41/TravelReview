@@ -1,6 +1,7 @@
 package com.example.travelreview;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +14,7 @@ import com.example.travelreview.Adapter.DataAdapter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

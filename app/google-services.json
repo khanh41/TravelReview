@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "604977318721",
+    "firebase_url": "https://travelreview-f266b.firebaseio.com",
+    "project_id": "travelreview-f266b",
+    "storage_bucket": "travelreview-f266b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604977318721:android:f9ea63626f1e4dca75afc0",
+        "android_client_info": {
+          "package_name": "com.example.travelreview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604977318721-89m0uba1l4kafjh3om29sr5rhi8sufp9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travelreview",
+            "certificate_hash": "747c3d670782bdd69fd832f9a582c4da3b6480fa"
+          }
+        },
+        {
+          "client_id": "604977318721-doelmigt649ft18ij2j19con65uuniq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ81GqbWel-aDYQlXrFZmTCxGhjf03E5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604977318721-doelmigt649ft18ij2j19con65uuniq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
