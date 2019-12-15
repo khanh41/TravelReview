@@ -1,21 +1,18 @@
-package com.example.travelreview.Adapter;
+package com.example.travelreview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.travelreview.Information;
-import com.example.travelreview.ItemTravel;
-import com.example.travelreview.R;
+
 
 import java.util.ArrayList;
 
@@ -27,9 +24,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
         this.listTravel = listTravel;
         this.context = context;
     }
-
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,7 +36,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textName.setText(listTravel.get(position).getName());
         holder.imgImage.setImageResource(listTravel.get(position).getImage());
-
     }
 
     @Override
@@ -69,12 +62,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
                 }
             });
         }
-
     }
     public void nextContent(String value){
         Intent intent = new Intent (context, Information.class);
         intent.putExtra("name", value);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
-
-}
+};
