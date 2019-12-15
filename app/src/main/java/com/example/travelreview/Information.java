@@ -59,6 +59,8 @@ public class Information extends AppCompatActivity {
                 tv_trichdan.setText(arrayList.get(i).getContent());
             }
         }
+        RvComment = findViewById(R.id.rv_comment);
+
         buttonCmt = findViewById(R.id.btn_comment);
         buttonCmt.setOnClickListener(new View.OnClickListener() {
             @Override
