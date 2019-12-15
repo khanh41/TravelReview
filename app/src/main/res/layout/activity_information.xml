@@ -58,8 +58,9 @@
                     android:weightSum="15"
                     android:layout_height="wrap_content">
                     <EditText
+                        android:background="@drawable/edittext_button_style_rounded"
                         android:id="@+id/edt_comment"
-                        android:layout_weight="14"
+                        android:layout_weight="16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></EditText>
                     <Button
@@ -70,7 +71,12 @@
                         android:text="Comment"></Button>
                 </LinearLayout>
             </LinearLayout>
-            <Button
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+           <Button
                 android:layout_margin="16dp"
                 android:id="@+id/btn_finish"
                 android:layout_width="wrap_content"

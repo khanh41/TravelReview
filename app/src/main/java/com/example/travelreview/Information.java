@@ -1,6 +1,7 @@
 package com.example.travelreview;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.media.Image;
@@ -11,15 +12,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.travelreview.R.id.image_view;
 
 public class Information extends AppCompatActivity {
-    private Button btn_finish;
+    private Button btn_finish,buttonCmt;
     private ImageView imageView;
     private TextView tv_trichdan;
     private TextView tv_head;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    RecyclerView RvComment;
+    CommentAdapter commentAdapter;
+    List<Comment> listComment;
+    static String COMMENT_KEY = "Comment" ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +56,16 @@ public class Information extends AppCompatActivity {
                 String url = "R.id."+intent.getStringExtra("name");
                 tv_head.setText(arrayList.get(i).getName());
                 this.imageView.setImageResource(arrayList.get(i).getImage());
-                Toast.makeText(this, ""+arrayList.get(i).getContent(), Toast.LENGTH_SHORT).show();
                 tv_trichdan.setText(arrayList.get(i).getContent());
             }
         }
+        buttonCmt = findViewById(R.id.btn_comment);
+        buttonCmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
