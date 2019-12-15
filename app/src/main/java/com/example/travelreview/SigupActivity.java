@@ -100,7 +100,7 @@ public class SigupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Build.VERSION.SDK_INT >= 22) {
+                if (Build.VERSION.SDK_INT < 22) {
 
                     checkAndRequestForPermission();
 

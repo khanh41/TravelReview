@@ -1,20 +1,33 @@
 package com.example.travelreview;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +36,10 @@ import static com.example.travelreview.R.id.image_view;
 
 public class Information extends AppCompatActivity {
     private Button btn_finish,buttonCmt;
-    private ImageView imageView;
-    private TextView tv_trichdan;
+    private ImageView imageView,imgCurrentUser;
+    private EditText editTextComment;
+    String PostKey;
+    private TextView tv_trichdan,txtPostDateName;
     private TextView tv_head;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -37,6 +52,10 @@ public class Information extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        getSupportActionBar().hide();
+
         btn_finish = findViewById(R.id.btn_finish);
         imageView = findViewById(image_view);
         tv_trichdan = findViewById(R.id.tv_trichdan);
@@ -60,19 +79,86 @@ public class Information extends AppCompatActivity {
             }
         }
         RvComment = findViewById(R.id.rv_comment);
-
-        buttonCmt = findViewById(R.id.btn_comment);
+        buttonCmt = findViewById(R.id.post_detail_add_comment_btn);
+        imgCurrentUser = findViewById(R.id.post_detail_currentuser_img);
+        editTextComment = findViewById(R.id.post_detail_comment);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         buttonCmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonCmt.setVisibility(View.INVISIBLE);
+                DatabaseReference commentReference = firebaseDatabase.getReference(COMMENT_KEY).child(PostKey).push();
+                String comment_content = editTextComment.getText().toString();
+                String uid = firebaseUser.getUid();
+                String uname = firebaseUser.getDisplayName();
+                String uimg = firebaseUser.getPhotoUrl().toString();
+                Comment comment = new Comment(comment_content,uid,uimg,uname);
+                Log.d("pluto","zcx");
+                commentReference.setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showMessage("comment added");
+                        editTextComment.setText("");
+                        buttonCmt.setVisibility(View.VISIBLE);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showMessage("fail to add comment : "+e.getMessage());
+                    }
+                });
 
             }
         });
+        Glide.with(this).load(firebaseUser.getPhotoUrl()).into(imgCurrentUser);
+        // get post id
+        PostKey = getIntent().getExtras().getString("name");
+        // ini Recyclerview Comment
+        iniRvComment();
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+    private void iniRvComment() {
+
+        RvComment.setLayoutManager(new LinearLayoutManager(this));
+        Log.d("pluto","zcx");
+        DatabaseReference commentRef = firebaseDatabase.getReference(COMMENT_KEY).child(PostKey);
+        commentRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listComment = new ArrayList<>();
+                for (DataSnapshot snap:dataSnapshot.getChildren()) {
+
+                    Comment comment = snap.getValue(Comment.class);
+                    listComment.add(comment) ;
+                }
+
+                commentAdapter = new CommentAdapter(getApplicationContext(),listComment);
+                RvComment.setAdapter(commentAdapter);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+    }
+
+    private void showMessage(String message) {
+
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+
     }
 }
